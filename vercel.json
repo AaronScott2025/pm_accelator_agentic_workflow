@@ -11,5 +11,6 @@
       "src": "/(.*)",
       "dest": "src/ai_interviewer_pm/api/server.py"
     }
-  ]
+  ],
+  "excludeFiles": ["tests/**", "docs/**", "notebooks/**", "*.md"]
 }
