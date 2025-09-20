@@ -34,6 +34,10 @@ from ai_interviewer_pm.api.models import (
 
 app = FastAPI(title="AI Interviewer PM API", version="0.1.0")
 
+@app.get("/")
+def root():
+    return {"message": "FastAPI is working!"}
+
 # CORS: allow local Next.js dev by default
 app.add_middleware(
     CORSMiddleware,
