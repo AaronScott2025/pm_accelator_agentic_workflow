@@ -1,9 +1,18 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/main.py", "use": "@vercel/python" }
+    {
+      "src": "src/ai_interviewer_pm/api/server.py",
+      "use": "@vercel/python",
+      "config": {
+        "buildCommand": "make install"
+      }
+    }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "src/ai_interviewer_pm/api/server.py" }
+    {
+      "src": "/(.*)",
+      "dest": "src/ai_interviewer_pm/api/server.py"
+    }
   ]
 }
