@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List
 
-from ai_interviewer_pm.settings import settings
+from src.ai_interviewer_pm.settings import settings
 from langchain_community.tools.tavily_search import TavilySearchResults
 
 

@@ -5,9 +5,9 @@ from __future__ import annotations
 import asyncio
 from abc import ABC, abstractmethod
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any
+from typing import Any, Optional
 
-from ai_interviewer_pm.settings import settings
+from src.ai_interviewer_pm.settings import settings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
@@ -52,7 +52,7 @@ class EvaluationAgent(ABC):
         pass
 
     def evaluate(
-        self, question: str, answer: str, context: list[dict[str, Any]] | None = None
+        self, question: str, answer: str, context: Optional[list[dict[str, Any]]] = None
     ) -> AgentEvaluation:
         """Evaluate response from this agent's perspective."""
         prompt = ChatPromptTemplate.from_messages(
@@ -218,7 +218,7 @@ Evaluate customer focus:
 class MultiAgentEvaluator:
     """Orchestrator for multi-agent evaluation system."""
 
-    def __init__(self, agents: list[EvaluationAgent] | None = None) -> None:
+    def __init__(self, agents: Optional[list[EvaluationAgent]] = None) -> None:
         """Initialize multi-agent evaluator."""
         if agents is None:
             agents = [
@@ -232,7 +232,7 @@ class MultiAgentEvaluator:
         self.executor = ThreadPoolExecutor(max_workers=max(1, len(agents)))
 
     def evaluate_parallel(
-        self, question: str, answer: str, context: list[dict[str, Any]] | None = None
+        self, question: str, answer: str, context: Optional[list[dict[str, Any]]] = None
     ) -> list[AgentEvaluation]:
         """Run all agents in parallel for evaluation."""
         futures = []
@@ -252,7 +252,7 @@ class MultiAgentEvaluator:
         return evaluations
 
     async def evaluate_async(
-        self, question: str, answer: str, context: list[dict[str, Any]] | None = None
+        self, question: str, answer: str, context: Optional[dict[str, Any]] = None
     ) -> list[AgentEvaluation]:
         """Asynchronously evaluate with all agents."""
         tasks = []

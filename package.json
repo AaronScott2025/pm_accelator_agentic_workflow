@@ -1,0 +1,30 @@
+{
+  "engines": {
+    "node": "18.x"
+  },
+  "name": "pm_accelator_agentic_workflow",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AaronScott2025/pm_accelator_agentic_workflow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AaronScott2025/pm_accelator_agentic_workflow/issues"
+  },
+  "homepage": "https://github.com/AaronScott2025/pm_accelator_agentic_workflow#readme",
+  "devDependencies": {
+    "dummy-package": "^1.0.0"
+  },
+  "packageManager": "npm@10.2.0"
+}

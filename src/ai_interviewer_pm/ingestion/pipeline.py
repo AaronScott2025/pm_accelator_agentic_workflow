@@ -1,19 +1,19 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
-from ai_interviewer_pm.ingestion.chunkers import (
+from src.ai_interviewer_pm.ingestion.chunkers import (
     BaseChunker,
     RecursiveCharChunker,
     SentenceBoundaryChunker,
     TimestampChunker,
 )
-from ai_interviewer_pm.retrieval.vectorstore import build_vectorstore
-from ai_interviewer_pm.settings import settings
+from src.ai_interviewer_pm.retrieval.vectorstore import build_vectorstore
+from src.ai_interviewer_pm.settings import settings
 
 
-def load_texts_from_data_dir(data_dir: str | Path | None = None) -> List[Tuple[str, dict]]:
+def load_texts_from_data_dir(data_dir: str | Optional[Path] = None) -> List[Tuple[str, dict]]:
     """Load raw texts from data directory with minimal heuristics.
 
     Currently supports .vtt; future: .txt, .md, .pdf with OCR.
@@ -48,8 +48,8 @@ def index_data(
     *,
     chunker_name: str = "timestamp",
     provider: str = "cohere",
-    model: str | None = None,
-    collection_name: str | None = None,
+    model: Optional[str] = None,
+    collection_name: Optional[str] = None,
 ):
     """End-to-end ingestion: load data, chunk, and index into Qdrant.
 

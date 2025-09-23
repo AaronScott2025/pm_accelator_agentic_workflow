@@ -106,7 +106,7 @@ class TimestampChunker(BaseChunker):
         lines = text.splitlines()
         chunks: List[Chunk] = []
         current: list[str] = []
-        current_meta: dict[str, object] | None = None
+        current_meta: Optional[dict[str, object]] = None
         base = metadata or {}
 
         def flush() -> None:

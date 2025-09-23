@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from typing import Optional
 
 from dotenv import load_dotenv
 
@@ -24,15 +25,15 @@ class Settings:
         data_dir: Local data directory path for ingestion.
     """
 
-    openai_api_key: str | None = os.getenv("OPENAI_API_KEY")
-    cohere_api_key: str | None = os.getenv("COHERE_API_KEY")
-    tavily_api_key: str | None = os.getenv("TAVILY_API_KEY")
+    openai_api_key: Optional[str] = os.getenv("OPENAI_API_KEY")
+    cohere_api_key: Optional[str] = os.getenv("COHERE_API_KEY")
+    tavily_api_key: Optional[str] = os.getenv("TAVILY_API_KEY")
 
-    langsmith_api_key: str | None = os.getenv("LANGCHAIN_API_KEY")
+    langsmith_api_key: Optional[str] = os.getenv("LANGCHAIN_API_KEY")
     langsmith_project: str = os.getenv("LANGCHAIN_PROJECT", "ai-interviewer-pm")
 
     qdrant_url: str = os.getenv("QDRANT_URL", "http://localhost:6333")
-    qdrant_api_key: str | None = os.getenv("QDRANT_API_KEY")
+    qdrant_api_key: Optional[str] = os.getenv("QDRANT_API_KEY")
     qdrant_collection: str = os.getenv("QDRANT_COLLECTION", "ai_interviewer_chunks")
 
     data_dir: str = os.getenv("DATA_DIR", "data")

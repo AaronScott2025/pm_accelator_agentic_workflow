@@ -3,13 +3,15 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Sequence
 
-from ai_interviewer_pm.settings import settings
+from src.ai_interviewer_pm.settings import settings
 from langchain.embeddings.base import Embeddings
 from langchain_community.embeddings import CohereEmbeddings
 from langchain_community.vectorstores import Qdrant
 from langchain_openai import OpenAIEmbeddings
 from pydantic import SecretStr
 from qdrant_client import QdrantClient
+from typing import Optional
+
 
 
 @dataclass
@@ -20,7 +22,7 @@ class VectorDoc:
     metadata: dict[str, object]
 
 
-def get_embedding_model(provider: str = "openai", *, model: str | None = None) -> Embeddings:
+def get_embedding_model(provider: str = "openai", *, model: Optional[str] = None) -> Embeddings:
     """Factory for embeddings models.
 
     Args:
@@ -47,11 +49,11 @@ def get_qdrant_client() -> QdrantClient:
 
 def build_vectorstore(
     texts: Sequence[str],
-    metadatas: Sequence[dict[str, object]] | None,
+    metadatas: Optional[Sequence[dict[str, object]]],
     *,
     provider: str = "openai",
-    model: str | None = None,
-    collection_name: str | None = None,
+    model: Optional[str] = None,
+    collection_name: Optional[str] = None,
 ) -> Qdrant:
     """Index texts into a Qdrant vector store.
 

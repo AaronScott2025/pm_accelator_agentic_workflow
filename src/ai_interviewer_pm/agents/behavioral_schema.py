@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Annotated, Any, Literal, TypedDict
+from typing import Annotated, Any, Literal, TypedDict, Optional
 
 from langchain_core.messages import BaseMessage
 from langgraph.graph import add_messages
@@ -51,7 +51,7 @@ class InterviewSession(BaseModel):
     """Interview session metadata and progress tracking."""
 
     session_id: str = Field(description="Unique session identifier")
-    candidate_name: str | None = Field(description="Candidate name if provided", default=None)
+    candidate_name: Optional[str] = Field(description="Candidate name if provided", default=None)
     target_level: Literal["junior", "mid", "senior"] = Field(description="Target seniority level")
     start_time: datetime = Field(default_factory=datetime.now)
     current_question_index: int = Field(description="Index of current question", default=0)
@@ -73,12 +73,12 @@ class BehavioralInterviewState(TypedDict):
 
     # Question management
     question_pool: list[BehavioralQuestion]
-    current_question: BehavioralQuestion | None
+    current_question: Optional[BehavioralQuestion]
 
     # Response handling
-    current_answer: str | None
-    template_answer: str | None  # Template/example answer for current question
-    evaluation: ResponseEvaluation | None
+    current_answer: Optional[str]
+    template_answer: Optional[str]  # Template/example answer for current question
+    evaluation: Optional[ResponseEvaluation]
     improvement_tips: list[str]  # Specific tips for improving the answer
     refinement_count: int  # Track how many times answer has been refined
 
@@ -93,17 +93,17 @@ class BehavioralInterviewState(TypedDict):
     web_search_results: list[dict[str, Any]]
 
     # NEW: Enhanced evaluation fields
-    coaching_patterns: dict[str, Any] | None  # Dr. Nancy's coaching patterns
-    coaching_feedback: dict[str, Any] | None  # Dr. Nancy's coaching feedback
-    grail_evaluation: dict[str, Any] | None  # GRAIL rubric evaluation
+    coaching_patterns: Optional[dict[str, Any]]  # Dr. Nancy's coaching patterns
+    coaching_feedback: Optional[dict[str, Any]]  # Dr. Nancy's coaching feedback
+    grail_evaluation: Optional[dict[str, Any]]  # GRAIL rubric evaluation
     agent_evaluations: list[dict[str, Any]]  # Multi-agent evaluations
-    consensus_evaluation: dict[str, Any] | None  # Consensus from agents
+    consensus_evaluation: Optional[dict[str, Any]]  # Consensus from agents
 
     # NEW: Adaptive questioning fields
-    performance_metrics: dict[str, Any] | None  # Performance tracking
-    adaptive_decision: dict[str, Any] | None  # Adaptive system decision
+    performance_metrics: Optional[dict[str, Any]] # Performance tracking
+    adaptive_decision: Optional[dict[str, Any]]   # Adaptive system decision
     evaluation_history: list[ResponseEvaluation]  # History for adaptation
-    next_question_override: BehavioralQuestion | None  # Override from adaptive
+    next_question_override: Optional[BehavioralQuestion]  # Override from adaptive
 
     # NEW: Iteration and recursion control
     node_iterations: dict[str, int]  # Track iterations per node
@@ -130,11 +130,11 @@ class BehavioralInterviewState(TypedDict):
     config: dict[str, Any]  # Runtime configuration
 
     # Error handling
-    error_state: dict[str, Any] | None
+    error_state: Optional[dict[str, Any]]
     retry_count: int
 
     # NEW: Backup data for persistence
-    evaluation_backup: dict[str, Any] | None  # Backup evaluation data
+    evaluation_backup: Optional[dict[str, Any]] # Backup evaluation data
 
 
 def validate_interview_state(state: dict[str, Any]) -> BehavioralInterviewState:

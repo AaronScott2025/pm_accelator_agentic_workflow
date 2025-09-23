@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -94,10 +94,10 @@ class AdaptiveDecisionResult(BaseModel):
     """Adaptive questioning decision."""
     
     action: Literal["continue", "adjust_difficulty", "switch_category", "deep_dive", "conclude"]
-    next_question_id: str | None = None
+    next_question_id: Optional[str] = None
     reasoning: str
     difficulty_adjustment: Literal["easier", "same", "harder"]
-    focus_area: str | None
+    focus_area: Optional[str]
 
 
 class CoachingFeedback(BaseModel):
@@ -115,15 +115,15 @@ class EvaluateResponse(BaseModel):
     feedback: str
     rubric_score: dict[str, Any]
     followups: list[str]
-    template_answer: str | None = None  # Template/example answer for the question
-    contexts: list[dict[str, Any]] | None = None
-    ragas: dict[str, Any] | None = None
-    judge: JudgeResult | None = None
+    template_answer: Optional[str] = None  # Template/example answer for the question
+    contexts: Optional[list[dict[str, Any]]] = None
+    ragas: Optional[dict[str, Any]] = None
+    judge: Optional[JudgeResult] = None
     # NEW: Enhanced evaluation fields
-    grail_evaluation: GRAILEvaluationResult | None = None
-    consensus_evaluation: ConsensusEvaluationResult | None = None
-    adaptive_decision: AdaptiveDecisionResult | None = None
-    coaching_feedback: CoachingFeedback | None = None
+    grail_evaluation: Optional[GRAILEvaluationResult] = None
+    consensus_evaluation: Optional[ConsensusEvaluationResult] = None
+    adaptive_decision: Optional[AdaptiveDecisionResult] = None
+    coaching_feedback: Optional[CoachingFeedback] = None
 
 
 # Behavioral Interview Models
@@ -177,7 +177,7 @@ class BehavioralSubmitResponse(BaseModel):
 
     session_id: str
     evaluation: EvaluateResponse
-    next_question: BehavioralQuestionResponse | None = None
+    next_question: Optional[BehavioralQuestionResponse] = None
     interview_completed: bool = False
     progress: dict[str, Any] = Field(
         default_factory=lambda: {"questions_completed": 0, "questions_remaining": 0}
@@ -192,7 +192,7 @@ class BehavioralSubmitResponse(BaseModel):
         default_factory=list, description="Specific tips for improving the answer"
     )
     # NEW: Performance tracking
-    performance_metrics: dict[str, Any] | None = Field(
+    performance_metrics: Optional[dict[str, Any]] = Field(
         default=None, description="Current performance metrics for adaptive questioning"
     )
 
@@ -207,8 +207,8 @@ class BehavioralContinueResponse(BaseModel):
     """Response when continuing behavioral interview."""
 
     session_id: str
-    question: BehavioralQuestionResponse | None = None
-    interview_summary: str | None = None
+    question: Optional[BehavioralQuestionResponse] = None
+    interview_summary: Optional[str] = None
     interview_completed: bool
     conversation_history: list[dict[str, Any]] = Field(default_factory=list)
-    overall_score: float | None = None
+    overall_score: Optional[float] = None

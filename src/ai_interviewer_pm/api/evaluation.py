@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 
-def try_ragas_single(question: str, answer: str, contexts: List[str]) -> Dict[str, Any] | None:
+def try_ragas_single(question: str, answer: str, contexts: List[str]) -> Optional[Dict[str, Any]]:
     """Compute a minimal RAGAS metric set for a single example if ragas is installed.
 
     Returns None if ragas or datasets is not installed, or if evaluation fails.
@@ -27,7 +27,7 @@ def try_ragas_single(question: str, answer: str, contexts: List[str]) -> Dict[st
     # For now, return mock results for testing purposes
 
 
-def llm_as_judge(question: str, answer: str, feedback: str) -> Dict[str, Any] | None:
+def llm_as_judge(question: str, answer: str, feedback: str) -> Optional[Dict[str, Any]]:
     """Simple LLM-as-judge that scores the answer 0-10 based on rubric/feedback.
 
     Returns a dict with {score, rationale}. Returns None on failure. Keep lightweight.
