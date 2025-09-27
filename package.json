@@ -9,9 +9,6 @@
   "directories": {
     "test": "tests"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AaronScott2025/pm_accelator_agentic_workflow.git"
@@ -26,5 +23,8 @@
   "devDependencies": {
     "dummy-package": "^1.0.0"
   },
+  "scripts": {
+  "build": "next build"
+},
   "packageManager": "npm@10.2.0"
 }
