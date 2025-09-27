@@ -1,23 +1,31 @@
-FROM nginx:alpine
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci --only=production
 
-# Copy the static HTML file
-COPY index.html /usr/share/nginx/html/index.html
-COPY index.html /usr/share/nginx/html/behavioral.html
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+RUN npm run build
 
-# Configure nginx to handle SPA routing
-RUN echo 'server { \
-    listen 80; \
-    server_name localhost; \
-    root /usr/share/nginx/html; \
-    index index.html; \
-    location / { \
-        try_files $uri $uri/ /index.html; \
-    } \
-    location /behavioral { \
-        try_files /index.html /index.html; \
-    } \
-}' > /etc/nginx/conf.d/default.conf
+FROM node:20-alpine AS runner
+WORKDIR /app
 
-EXPOSE 80
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
 
-CMD ["nginx", "-g", "daemon off;"]
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT 3000
+
+CMD ["node", "server.js"]
