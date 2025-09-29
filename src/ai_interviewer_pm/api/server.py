@@ -6,15 +6,15 @@ from typing import Any
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.ai_interviewer_pm.agents.behavioral_graph import compile_behavioral_interview_graph
-from src.ai_interviewer_pm.agents.behavioral_schema import (
+from ai_interviewer_pm.agents.behavioral_graph import compile_behavioral_interview_graph
+from ai_interviewer_pm.agents.behavioral_schema import (
     BehavioralInterviewState,
     BehavioralQuestion,
     InterviewSession,
     validate_interview_state,
 )
-from src.ai_interviewer_pm.api.evaluation import llm_as_judge, try_ragas_single
-from src.ai_interviewer_pm.api.models import (
+from ai_interviewer_pm.api.evaluation import llm_as_judge, try_ragas_single
+from ai_interviewer_pm.api.models import (
     AdaptiveDecisionResult,
     AgentEvaluationResult,
     BehavioralContinueRequest,

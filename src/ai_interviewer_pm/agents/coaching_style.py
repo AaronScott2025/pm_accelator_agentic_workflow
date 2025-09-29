@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
-from src.ai_interviewer_pm.settings import settings
+from ai_interviewer_pm.settings import settings
 from langchain_core.messages import SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
@@ -155,7 +155,7 @@ Guide them toward stronger product thinking patterns.""",
         question: str,
         answer: str,
         evaluation_scores: dict[str, float],
-        coaching_patterns: Optional[dict[str, Any]] = None,
+        coaching_patterns: dict[str, Any] | None = None,
     ) -> str:
         """Generate feedback in Dr. Nancy's coaching style."""
         avg_score = (

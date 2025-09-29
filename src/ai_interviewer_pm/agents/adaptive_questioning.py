@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Literal, Optional
+from typing import Literal
 
-from src.ai_interviewer_pm.agents.behavioral_schema import BehavioralQuestion, ResponseEvaluation
+from ai_interviewer_pm.agents.behavioral_schema import BehavioralQuestion, ResponseEvaluation
 from pydantic import BaseModel, Field
 
 
@@ -24,12 +24,12 @@ class AdaptiveDecision(BaseModel):
     """Decision made by adaptive system."""
 
     action: Literal["continue", "adjust_difficulty", "switch_category", "deep_dive", "conclude"]
-    next_question: Optional[BehavioralQuestion] = Field(description="Next question to ask")
+    next_question: BehavioralQuestion | None = Field(description="Next question to ask")
     reasoning: str = Field(description="Reasoning for the decision")
     difficulty_adjustment: Literal["easier", "same", "harder"] = Field(
         description="Difficulty adjustment"
     )
-    focus_area: Optional[str] = Field(description="Area to focus on")
+    focus_area: str | None = Field(description="Area to focus on")
 
 
 class AdaptiveQuestionSelector:
@@ -77,7 +77,7 @@ class AdaptiveQuestionSelector:
         self.max_iterations = 10
 
     def analyze_performance(
-        self, evaluations: list[ResponseEvaluation], current_eval: Optional[ResponseEvaluation] = None
+        self, evaluations: list[ResponseEvaluation], current_eval: ResponseEvaluation | None = None
     ) -> PerformanceMetrics:
         """Analyze candidate's performance across evaluations."""
         all_evals = evaluations.copy()
@@ -196,9 +196,9 @@ class AdaptiveQuestionSelector:
     def select_next_question(
         self,
         question_pool: list[BehavioralQuestion],
-        current_question: Optional[BehavioralQuestion],
+        current_question: BehavioralQuestion | None,
         performance: PerformanceMetrics,
-        completed_categories: Optional[list[str]] = None,
+        completed_categories: list[str] | None = None,
     ) -> AdaptiveDecision:
         """Select the next question based on performance analysis."""
         self.iteration_count += 1
@@ -261,7 +261,7 @@ class AdaptiveQuestionSelector:
         self,
         available_questions: list[BehavioralQuestion],
         performance_level: str,
-        current_question: Optional[BehavioralQuestion],
+        current_question: BehavioralQuestion | None,
     ) -> AdaptiveDecision:
         """Handle early interview progression."""
         mid_level_questions = [q for q in available_questions if q.difficulty == "mid"]
@@ -283,7 +283,7 @@ class AdaptiveQuestionSelector:
         self,
         available_questions: list[BehavioralQuestion],
         performance: PerformanceMetrics,
-        current_question: Optional[BehavioralQuestion],
+        current_question: BehavioralQuestion | None,
     ) -> AdaptiveDecision:
         """Handle candidate who is struggling."""
         easier_questions = [q for q in available_questions if q.difficulty in ["junior", "mid"]]
@@ -316,7 +316,7 @@ class AdaptiveQuestionSelector:
         self,
         available_questions: list[BehavioralQuestion],
         performance: PerformanceMetrics,
-        current_question: Optional[BehavioralQuestion],
+        current_question: BehavioralQuestion | None,
     ) -> AdaptiveDecision:
         """Handle high-performing candidate."""
         harder_questions = [q for q in available_questions if q.difficulty in ["mid", "senior"]]
@@ -363,7 +363,7 @@ class AdaptiveQuestionSelector:
         self,
         available_questions: list[BehavioralQuestion],
         performance: PerformanceMetrics,
-        current_question: Optional[BehavioralQuestion],
+        current_question: BehavioralQuestion | None,
     ) -> AdaptiveDecision:
         """Handle normal interview progression."""
         target_categories = self.CATEGORY_PROGRESSION.get(

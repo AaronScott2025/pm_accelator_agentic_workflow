@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from typing import List
 
-from src.ai_interviewer_pm.retrieval.vectorstore import get_embedding_model, get_qdrant_client
-from src.ai_interviewer_pm.settings import settings
+from ai_interviewer_pm.retrieval.vectorstore import get_embedding_model, get_qdrant_client
+from ai_interviewer_pm.settings import settings
 from langchain_community.vectorstores import Qdrant
 
 

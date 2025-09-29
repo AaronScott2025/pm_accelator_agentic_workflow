@@ -10,18 +10,18 @@ from typing import TYPE_CHECKING, Callable
 if TYPE_CHECKING:
     from langgraph.pregel import Pregel
 
-from src.ai_interviewer_pm.agents.adaptive_questioning import create_adaptive_selector
-from src.ai_interviewer_pm.agents.behavioral_schema import (
+from ai_interviewer_pm.agents.adaptive_questioning import create_adaptive_selector
+from ai_interviewer_pm.agents.behavioral_schema import (
     BehavioralInterviewState,
     BehavioralQuestion,
     ResponseEvaluation,
 )
-from src.ai_interviewer_pm.agents.coaching_style import create_coaching_style_handler
-from src.ai_interviewer_pm.agents.grail_rubric import create_grail_evaluator
-from src.ai_interviewer_pm.agents.multi_agent_evaluator import create_multi_agent_evaluator
-from src.ai_interviewer_pm.settings import settings
-from src.ai_interviewer_pm.tools.internet import internet_search
-from src.ai_interviewer_pm.tools.vector_db import vector_search
+from ai_interviewer_pm.agents.coaching_style import create_coaching_style_handler
+from ai_interviewer_pm.agents.grail_rubric import create_grail_evaluator
+from ai_interviewer_pm.agents.multi_agent_evaluator import create_multi_agent_evaluator
+from ai_interviewer_pm.settings import settings
+from ai_interviewer_pm.tools.internet import internet_search
+from ai_interviewer_pm.tools.vector_db import vector_search
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
@@ -1386,7 +1386,7 @@ def create_checkpointer() -> MemorySaver:
 
 
 def compile_behavioral_interview_graph(
-    checkpointer: Optional[MemorySaver] = None, max_recursion: int = 50
+    checkpointer: MemorySaver | None = None, max_recursion: int = 50
 ) -> Pregel:
     """Compile the behavioral interview graph with recursion protection."""
     graph = build_behavioral_interview_graph()

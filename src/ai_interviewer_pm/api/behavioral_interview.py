@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import datetime
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from langgraph.pregel import Pregel
@@ -36,7 +36,7 @@ def get_interview_app() -> Pregel:
 class StartInterviewRequest(BaseModel):
     """Request to start a new behavioral interview session."""
 
-    candidate_name: Optional[str] = Field(None, description="Optional candidate name")
+    candidate_name: str | None = Field(None, description="Optional candidate name")
     target_level: str = Field("mid", description="Target seniority: junior, mid, senior")
     total_questions: int = Field(5, ge=1, le=10, description="Total planned questions")
 
@@ -62,8 +62,8 @@ class SubmitResponseResponse(BaseModel):
     """Response after submitting candidate response."""
 
     session_id: str
-    message: Optional[str]
-    evaluation: Optional[dict[str, Any]]
+    message: str | None
+    evaluation: dict[str, Any] | None
     next_action: str
     interview_completed: bool
 
@@ -72,7 +72,7 @@ class InterviewStatusResponse(BaseModel):
     """Current interview session status."""
 
     session_id: str
-    current_question: Optional[str]
+    current_question: str | None
     progress: str
     stage: str
     messages_count: int

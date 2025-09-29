@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Sequence, Tuple, Optional
+from typing import List, Sequence, Tuple
 
 
 def rrf_fusion(
@@ -42,7 +42,7 @@ class BM25Retriever:
         self._corpus = list(corpus)
         if len(self._corpus) == 0:
             self._docs: list[list[str]] = []
-            self._bm25: Optional[BM25Okapi] = None
+            self._bm25: BM25Okapi | None = None
         else:
             self._docs = [d.split() for d in self._corpus]
             self._bm25 = BM25Okapi(self._docs)

@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
-from src.ai_interviewer_pm.settings import settings
+from ai_interviewer_pm.settings import settings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
@@ -145,7 +145,7 @@ class GRAILEvaluator:
         component: str,
         answer: str,
         question: str,
-        context: Optional[list[dict[str, Any]]] = None,
+        context: list[dict[str, Any]] | None = None,
     ) -> GRAILScore:
         """Evaluate a single GRAIL component."""
         rubric = self.GRAIL_RUBRIC[component]
@@ -205,8 +205,8 @@ Evaluate the {component} component and return a JSON with:
         self,
         question: str,
         answer: str,
-        context: Optional[list[dict[str, Any]]] = None,
-        question_category: Optional[str] = None,
+        context: list[dict[str, Any]] | None = None,
+        question_category: str | None = None,
     ) -> GRAILEvaluation:
         """Perform complete GRAIL evaluation of a response."""
         component_scores = {}
@@ -236,7 +236,7 @@ Evaluate the {component} component and return a JSON with:
         )
 
     def calculate_weighted_score(
-        self, scores: dict[str, GRAILScore], question_category: Optional[str] = None
+        self, scores: dict[str, GRAILScore], question_category: str | None = None
     ) -> float:
         """Calculate weighted overall score based on question type."""
         default_weights = {
@@ -312,7 +312,7 @@ Evaluate the {component} component and return a JSON with:
         return competency_assessment
 
     def generate_overall_assessment(
-        self, scores: dict[str, GRAILScore], overall_score: float, question_category: Optional[str]
+        self, scores: dict[str, GRAILScore], overall_score: float, question_category: str | None
     ) -> str:
         """Generate holistic assessment summary."""
         strengths = [
